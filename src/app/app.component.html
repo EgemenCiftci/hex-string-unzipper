@@ -1,0 +1,10 @@
+<div>
+	<p>Hex of Zipped Data</p>
+	<textarea [(ngModel)]="inputText"></textarea>
+	<button (click)="onclick()">UNZIP</button>
+  <p class="error" *ngIf="errorText">{{errorText}}</p>
+	<div *ngIf="outputText">
+		<p>Unzipped Data</p>
+		<textarea readonly [(ngModel)]="outputText"></textarea>
+	</div>
+</div>
