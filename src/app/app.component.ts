@@ -7,6 +7,7 @@ import { ungzip } from "pako";
   styleUrls: ["./app.component.css"]
 })
 export class AppComponent {
+  private regex = RegExp("[0-9A-Fa-f]");
   errorText: string;
   private inputTextValue = "";
   @Output() inputTextChange = new EventEmitter<string>();
@@ -52,7 +53,7 @@ export class AppComponent {
     let validHexString = "";
     for (let i = 0; i < hexString.length; i++) {
       let char = hexString.charAt(i);
-      if (char.match("[0-9A-Fa-f]")) {
+      if (this.regex.test(char)) {
         validHexString += char;
       }
     }
