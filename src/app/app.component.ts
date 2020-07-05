@@ -8,25 +8,6 @@ import { ungzip } from "pako";
 })
 export class AppComponent {
   errorText: string;
-  private validChars: string[] = [
-    "0",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F"
-  ];
-
   private inputTextValue = "";
   @Output() inputTextChange = new EventEmitter<string>();
   @Input()
@@ -69,10 +50,9 @@ export class AppComponent {
 
   getValidHexString(hexString: string): string {
     let validHexString = "";
-    let upperCaseHexString = hexString.toUpperCase();
-    for (let i = 0; i < upperCaseHexString.length; i++) {
-      let char = upperCaseHexString.charAt(i);
-      if (this.validChars.some(f => f === char)) {
+    for (let i = 0; i < hexString.length; i++) {
+      let char = hexString.charAt(i);
+      if (char.match("[0-9A-Fa-f]")) {
         validHexString += char;
       }
     }
