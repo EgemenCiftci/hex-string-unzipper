@@ -7,7 +7,7 @@
 
 	<button class="full-width" mat-flat-button color="primary" (click)="onclick()">Unzip</button>
 
-	<mat-form-field class="full-width" *ngIf="outputText.value">
+	<mat-form-field class="full-width full-height" *ngIf="outputText.value">
 		<mat-label>Unzipped Data</mat-label>
 		<textarea matInput readonly [formControl]="outputText"></textarea>
 	</mat-form-field>
