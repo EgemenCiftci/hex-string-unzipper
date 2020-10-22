@@ -1,14 +1,14 @@
-<div>
-	<form class="full-width">
-		<mat-form-field class="full-width">
-			<mat-label>Hex of Zipped Data</mat-label>
-			<textarea matInput [(ngModel)]="inputText"></textarea>
-		</mat-form-field>
-	</form>
-	<button class="full-width" mat-flat-button color="primary" (click)="onclick()">UNZIP</button>
-	<p class="error" *ngIf="errorText">{{errorText}}</p>
-	<div *ngIf="outputText">
-		<p>Unzipped Data</p>
-		<textarea readonly [(ngModel)]="outputText"></textarea>
-	</div>
-</div>
+<form class="full-width">
+	<mat-form-field class="full-width">
+		<mat-label>Hex of Zipped Data</mat-label>
+		<textarea matInput required [formControl]="inputText"></textarea>
+		<mat-error *ngIf="inputText.invalid">{{getErrorMessage()}}</mat-error>
+	</mat-form-field>
+
+	<button class="full-width" mat-flat-button color="primary" (click)="onclick()">Unzip</button>
+
+	<mat-form-field class="full-width" *ngIf="outputText.value">
+		<mat-label>Unzipped Data</mat-label>
+		<textarea matInput readonly [formControl]="outputText"></textarea>
+	</mat-form-field>
+</form>

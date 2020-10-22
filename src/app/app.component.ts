@@ -1,4 +1,5 @@
-import { Component, VERSION, Input, Output, EventEmitter } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { FormControl, Validators } from "@angular/forms";
 import { ungzip } from "pako";
 
 @Component({
@@ -9,44 +10,28 @@ import { ungzip } from "pako";
 export class AppComponent {
   private regex = RegExp("[0-9A-Fa-f]");
   errorText: string;
-  private inputTextValue = "";
-  @Output() inputTextChange = new EventEmitter<string>();
-  @Input()
-  get inputText(): string {
-    return this.inputTextValue;
-  }
-  set inputText(val: string) {
-    if (val !== this.inputTextValue) {
-      this.inputTextValue = val;
-      this.inputTextChange.emit(this.inputTextValue);
-    }
-  }
-
-  private outputTextValue: string;
-  @Output() outputTextChange = new EventEmitter<string>();
-  @Input()
-  get outputText(): string {
-    return this.outputTextValue;
-  }
-  set outputText(val: string) {
-    if (val !== this.outputTextValue) {
-      this.outputTextValue = val;
-      this.outputTextChange.emit(this.outputTextValue);
-    }
-  }
+  inputText = new FormControl("", [Validators.required]);
+  outputText = new FormControl(""); 
 
   onclick() {
     try {
       this.errorText = undefined;
-      this.outputText = undefined;
-      let validHexString = this.getValidHexString(this.inputText);
+      this.outputText.setValue("");
+      let validHexString = this.getValidHexString(this.inputText.value);
       let bytes = this.getBytes(validHexString);
       let unzippedHexString = this.unzip(bytes);
-      this.outputTextValue = unzippedHexString;
+      this.outputText.setValue(unzippedHexString);
     } catch (error) {
       this.errorText = error;
-      this.outputText = undefined;
+      this.outputText.setValue("");
     }
+  }
+
+  getErrorMessage(): string {
+    if (this.inputText.hasError("required")) {
+      return "You must enter a value";
+    }
+    return this.errorText;
   }
 
   getValidHexString(hexString: string): string {
