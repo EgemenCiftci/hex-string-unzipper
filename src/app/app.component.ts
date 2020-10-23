@@ -9,20 +9,18 @@ import { ungzip } from "pako";
 })
 export class AppComponent {
   private regex = RegExp("[0-9A-Fa-f]");
-  errorText: string;
   inputText = new FormControl("", [Validators.required]);
   outputText = new FormControl(""); 
 
   onclick() {
     try {
-      this.errorText = undefined;
       this.outputText.setValue("");
       let validHexString = this.getValidHexString(this.inputText.value);
       let bytes = this.getBytes(validHexString);
       let unzippedHexString = this.unzip(bytes);
       this.outputText.setValue(unzippedHexString);
     } catch (error) {
-      this.errorText = error;
+      this.inputText.hasError(error);
       this.outputText.setValue("");
     }
   }
@@ -30,8 +28,9 @@ export class AppComponent {
   getErrorMessage(): string {
     if (this.inputText.hasError("required")) {
       return "You must enter a value";
+    } else {
+      return "";
     }
-    return this.errorText;
   }
 
   getValidHexString(hexString: string): string {
