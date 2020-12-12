@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
+import { BrowserModule, Title } from "@angular/platform-browser";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatInputModule } from "@angular/material/input";
@@ -18,6 +18,7 @@ import { AppComponent } from "./app.component";
     ReactiveFormsModule
   ],
   declarations: [AppComponent],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [Title]
 })
 export class AppModule {}

@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { Component } from "@angular/core";
 import { FormControl, Validators } from "@angular/forms";
+import { Title } from "@angular/platform-browser";
 import { ungzip } from "pako";
 
 @Component({
@@ -10,7 +11,11 @@ import { ungzip } from "pako";
 export class AppComponent {
   private regex = RegExp("[0-9A-Fa-f]");
   inputText = new FormControl("", [Validators.required]);
-  outputText = new FormControl(""); 
+  outputText = new FormControl("");
+
+  public constructor(private titleService: Title) {
+    this.titleService.setTitle("Hex String Unzipper");
+  }
 
   onclick() {
     try {
