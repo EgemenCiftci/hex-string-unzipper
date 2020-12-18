@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { FormControl, Validators } from "@angular/forms";
 import { Title } from "@angular/platform-browser";
-import { ungzip } from "pako";
+import * as pako from "pako";
 
 @Component({
   selector: "my-app",
@@ -59,6 +59,6 @@ export class AppComponent {
   }
 
   unzip(bytes: number[]): string {
-    return ungzip(bytes, { to: "string" });
+    return pako.ungzip(bytes, { to: "string" });
   }
 }
