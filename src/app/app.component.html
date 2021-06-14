@@ -1,14 +1,21 @@
-<form class="full-width">
-	<mat-form-field class="full-width">
-		<mat-label>Hex of Zipped Data</mat-label>
-		<textarea matInput required [formControl]="inputText"></textarea>
-		<mat-error *ngIf="inputText.invalid">{{getErrorMessage()}}</mat-error>
-	</mat-form-field>
-
-	<button class="full-width" mat-flat-button color="primary" (click)="onclick()">Unzip</button>
-
-	<mat-form-field class="full-width full-height" *ngIf="outputText.value">
-		<mat-label>Unzipped Data</mat-label>
-		<textarea matInput readonly [formControl]="outputText"></textarea>
-	</mat-form-field>
-</form>
+<mat-card class="example-card">
+	<mat-card-header>
+		<mat-card-title>Hex String Unzipper</mat-card-title>
+	</mat-card-header>
+	<mat-card-content>
+		<form class="full-width">
+			<mat-form-field class="full-width">
+				<mat-label>Hex of Zipped Data</mat-label>
+				<textarea matInput required [formControl]="inputText"></textarea>
+				<mat-error *ngIf="inputText.invalid">{{getErrorMessage()}}</mat-error>
+			</mat-form-field>
+			<mat-form-field class="full-width full-height" *ngIf="outputText.value">
+				<mat-label>Unzipped Data</mat-label>
+				<textarea matInput readonly [formControl]="outputText"></textarea>
+			</mat-form-field>
+		</form>
+	</mat-card-content>
+	<mat-card-actions>
+		<button class="full-width" mat-flat-button color="primary" (click)="onclick()">Unzip</button>
+	</mat-card-actions>
+</mat-card>
