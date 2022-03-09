@@ -17,10 +17,10 @@ import { MatCardModule } from '@angular/material/card';
     MatFormFieldModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    MatCardModule
+    MatCardModule,
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
-  providers: [Title]
+  providers: [Title],
 })
 export class AppModule {}

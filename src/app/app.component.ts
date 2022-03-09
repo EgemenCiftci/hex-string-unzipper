@@ -1,45 +1,45 @@
-import { Component } from "@angular/core";
-import { FormControl, Validators } from "@angular/forms";
-import { Title } from "@angular/platform-browser";
-import * as pako from "pako";
+import { Component } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
+import * as pako from 'pako';
 
 @Component({
-  selector: "my-app",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"]
+  selector: 'my-app',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  private regex = RegExp("[0-9A-Fa-f]");
-  inputText = new FormControl("", [Validators.required]);
-  outputText = new FormControl("");
+  private regex = RegExp('[0-9A-Fa-f]');
+  inputText = new FormControl('', [Validators.required]);
+  outputText = new FormControl('');
 
   public constructor(private titleService: Title) {
-    this.titleService.setTitle("Hex String Unzipper");
+    this.titleService.setTitle('Hex String Unzipper');
   }
 
   onclick() {
     try {
-      this.outputText.setValue("");
+      this.outputText.setValue('');
       let validHexString = this.getValidHexString(this.inputText.value);
       let bytes = this.getBytes(validHexString);
       let unzippedHexString = this.unzip(bytes);
       this.outputText.setValue(unzippedHexString);
     } catch (error) {
       this.inputText.hasError(error);
-      this.outputText.setValue("");
+      this.outputText.setValue('');
     }
   }
 
   getErrorMessage(): string {
-    if (this.inputText.hasError("required")) {
-      return "You must enter a value";
+    if (this.inputText.hasError('required')) {
+      return 'You must enter a value';
     } else {
-      return "";
+      return '';
     }
   }
 
   getValidHexString(hexString: string): string {
-    let validHexString = "";
+    let validHexString = '';
     for (let i = 0; i < hexString.length; i++) {
       let char = hexString.charAt(i);
       if (this.regex.test(char)) {
@@ -59,6 +59,6 @@ export class AppComponent {
   }
 
   unzip(bytes: number[]): string {
-    return pako.ungzip(bytes, { to: "string" });
+    return pako.ungzip(bytes, { to: 'string' });
   }
 }
