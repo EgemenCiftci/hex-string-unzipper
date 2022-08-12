@@ -6,6 +6,6 @@ html,
 body {
   margin: 0px;
   padding: 5px;
-  height: 100vh;
+  height: calc(100vh - 50px);
   font-family: 'Roboto', sans-serif;
 }

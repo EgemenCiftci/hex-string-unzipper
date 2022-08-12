@@ -27,7 +27,7 @@ export class AppComponent {
       const unzipped = this.unzipToString(bytes);
       this.outputText.setValue(unzipped);
     } catch (error) {
-      this.inputText.hasError(error);
+      this.inputText.setErrors({ error });
       this.outputText.setValue('');
     }
   }
@@ -40,16 +40,14 @@ export class AppComponent {
       const unzipped = this.unzipToBytes(bytes);
       this.download(unzipped);
     } catch (error) {
-      this.inputText.hasError(error);
+      this.inputText.setErrors({ error });
       this.outputText.setValue('');
     }
   }
 
   getErrorMessage(): string {
-    if (this.inputText.hasError('required')) {
-      return 'Required';
-    } else {
-      return '';
+    for (const error in this.inputText.errors) {
+      return `${error}: ${this.inputText.errors[error]}`;
     }
   }
 
@@ -74,15 +72,11 @@ export class AppComponent {
   }
 
   unzipToString(bytes: Uint8Array): string {
-    console.log(bytes);
     return pako.ungzip(bytes, { to: 'string' }) as string;
   }
 
   zipToHexString(s: string): string[] {
-    const a = Array.from(
-      pako.gzip(new TextEncoder().encode(s)) as Uint8Array
-    ).map((f) => f.toString(16));
-    return a;
+    return Array.from(pako.gzip(s) as Uint8Array).map((f) => f.toString(16));
   }
 
   unzipToBytes(bytes: Uint8Array): Uint8Array {

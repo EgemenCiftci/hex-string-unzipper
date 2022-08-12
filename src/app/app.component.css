@@ -10,8 +10,15 @@
   margin: 0 !important;
 }
 
-.button {
+button {
   width: calc(50% - 2px);
   margin-left: 1px;
   margin-right: 1px;
+}
+
+.container {
+  justify-content: space-between;
+  flex-direction: column;
+  height: 100vh;
+  display: flex;
 }
