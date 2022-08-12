@@ -17,7 +17,7 @@ export class AppComponent {
     this.titleService.setTitle('Hex String Unzipper');
   }
 
-  onclick() {
+  onUnzipClick() {
     try {
       this.outputText.setValue('');
       let validHexString = this.getValidHexString(this.inputText.value);
@@ -30,9 +30,16 @@ export class AppComponent {
     }
   }
 
+  onDownloadClick() {
+    try {
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   getErrorMessage(): string {
     if (this.inputText.hasError('required')) {
-      return 'You must enter a value';
+      return 'Required';
     } else {
       return '';
     }
@@ -61,4 +68,6 @@ export class AppComponent {
   unzip(bytes: number[]): string {
     return pako.ungzip(bytes, { to: 'string' });
   }
+
+  download(s: string) {}
 }
