@@ -10,6 +10,8 @@ import * as pako from 'pako';
 })
 export class AppComponent {
   private regex = RegExp('[0-9A-Fa-f]');
+  testHexString =
+    '1f 8b 08 00 00 00 00 00 00 03 0b 49 2d 2e 01 00 32 d1 4d 78 04 00 00 00';
   inputText = new FormControl('', [Validators.required]);
   outputText = new FormControl('');
 
@@ -22,7 +24,6 @@ export class AppComponent {
       this.outputText.setValue('');
       const validHexString = this.getValidHexString(this.inputText.value);
       const bytes = this.getBytes(validHexString);
-      console.log(bytes);
       const unzipped = this.unzipToString(bytes);
       console.log(unzipped);
       this.outputText.setValue(unzipped);
@@ -64,20 +65,28 @@ export class AppComponent {
     return validHexString;
   }
 
-  getBytes(hexString: string): number[] {
+  getBytes(hexString: string): Uint8Array {
     let result: number[] = [];
     while (hexString.length >= 2) {
       result.push(parseInt(hexString.substring(0, 2), 16));
       hexString = hexString.substring(2, hexString.length);
     }
-    return result;
+    return new Uint8Array(result);
   }
 
-  unzipToString(bytes: number[]): string {
+  unzipToString(bytes: Uint8Array): string {
+    console.log(bytes);
     return pako.ungzip(bytes, { to: 'string' }) as string;
   }
 
-  unzipToBytes(bytes: number[]): Uint8Array {
+  zipToHexString(s: string): string[] {
+    const a = Array.from(
+      pako.gzip(new TextEncoder().encode(s)) as Uint8Array
+    ).map((f) => f.toString(16));
+    return a;
+  }
+
+  unzipToBytes(bytes: Uint8Array): Uint8Array {
     return pako.ungzip(bytes) as Uint8Array;
   }
 
