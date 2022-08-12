@@ -25,7 +25,6 @@ export class AppComponent {
       const validHexString = this.getValidHexString(this.inputText.value);
       const bytes = this.getBytes(validHexString);
       const unzipped = this.unzipToString(bytes);
-      console.log(unzipped);
       this.outputText.setValue(unzipped);
     } catch (error) {
       this.inputText.hasError(error);
