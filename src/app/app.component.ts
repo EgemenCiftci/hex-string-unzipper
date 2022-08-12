@@ -17,12 +17,13 @@ export class AppComponent {
     this.titleService.setTitle('Hex String Unzipper');
   }
 
-  onUnzipClick() {
+  onUnzipShowClick() {
     try {
       this.outputText.setValue('');
       let validHexString = this.getValidHexString(this.inputText.value);
       let bytes = this.getBytes(validHexString);
-      let unzippedHexString = this.unzip(bytes);
+      let unzippedHexString = this.unzipToString(bytes);
+
       this.outputText.setValue(unzippedHexString);
     } catch (error) {
       this.inputText.hasError(error);
@@ -30,10 +31,15 @@ export class AppComponent {
     }
   }
 
-  onDownloadClick() {
+  onUnzipDownloadClick() {
     try {
+      this.outputText.setValue('');
+      let validHexString = this.getValidHexString(this.inputText.value);
+      let bytes = this.getBytes(validHexString);
+      let unzippedHexString = this.unzipToString(bytes);
     } catch (error) {
-      console.error(error);
+      this.inputText.hasError(error);
+      this.outputText.setValue('');
     }
   }
 
@@ -65,9 +71,27 @@ export class AppComponent {
     return result;
   }
 
-  unzip(bytes: number[]): string {
-    return pako.ungzip(bytes, { to: 'string' });
+  unzipToString(bytes: number[]): string {
+    return pako.ungzip(bytes, { to: 'string' }) as string;
   }
 
-  download(s: string) {}
+  unzipToBytes(bytes: number[]): number[] {
+    return Array.from(pako.ungzip(bytes) as Uint8Array);
+  }
+
+  download(text: string) {
+    if (text) {
+      const fileName = 'download.txt';
+      let element = document.createElement('a');
+      element.setAttribute(
+        'href',
+        'data:text/plain;charset=utf-8,' + encodeURIComponent(text)
+      );
+      element.setAttribute('download', fileName);
+      element.style.display = 'none';
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+    }
+  }
 }

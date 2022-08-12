@@ -17,12 +17,20 @@
   </mat-card-content>
   <mat-card-actions>
     <button
-      class="full-width"
+      class="button"
       mat-flat-button
       color="primary"
-      (click)="onUnzipClick()"
+      (click)="onUnzipShowClick()"
     >
-      Unzip
+      Unzip & Show
+    </button>
+    <button
+      class="button"
+      mat-flat-button
+      color="primary"
+      (click)="onUnzipDownloadClick()"
+    >
+      Unzip & Download
     </button>
   </mat-card-actions>
 </mat-card>

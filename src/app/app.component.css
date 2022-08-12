@@ -9,3 +9,9 @@
 :host ::ng-deep .mat-card-header-text {
   margin: 0 !important;
 }
+
+.button {
+  width: calc(50% - 2px);
+  margin-left: 1px;
+  margin-right: 1px;
+}
