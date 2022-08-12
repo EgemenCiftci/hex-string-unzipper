@@ -20,11 +20,11 @@ export class AppComponent {
   onUnzipShowClick() {
     try {
       this.outputText.setValue('');
-      let validHexString = this.getValidHexString(this.inputText.value);
-      let bytes = this.getBytes(validHexString);
-      let unzippedHexString = this.unzipToString(bytes);
+      const validHexString = this.getValidHexString(this.inputText.value);
+      const bytes = this.getBytes(validHexString);
+      const unzipped = this.unzipToString(bytes);
 
-      this.outputText.setValue(unzippedHexString);
+      this.outputText.setValue(unzipped);
     } catch (error) {
       this.inputText.hasError(error);
       this.outputText.setValue('');
@@ -34,9 +34,10 @@ export class AppComponent {
   onUnzipDownloadClick() {
     try {
       this.outputText.setValue('');
-      let validHexString = this.getValidHexString(this.inputText.value);
-      let bytes = this.getBytes(validHexString);
-      let unzippedHexString = this.unzipToString(bytes);
+      const validHexString = this.getValidHexString(this.inputText.value);
+      const bytes = this.getBytes(validHexString);
+      const unzipped = this.unzipToBytes(bytes);
+      this.download(unzipped);
     } catch (error) {
       this.inputText.hasError(error);
       this.outputText.setValue('');
@@ -75,19 +76,17 @@ export class AppComponent {
     return pako.ungzip(bytes, { to: 'string' }) as string;
   }
 
-  unzipToBytes(bytes: number[]): number[] {
-    return Array.from(pako.ungzip(bytes) as Uint8Array);
+  unzipToBytes(bytes: number[]): Uint8Array {
+    return pako.ungzip(bytes) as Uint8Array;
   }
 
-  download(text: string) {
-    if (text) {
-      const fileName = 'download.txt';
+  download(bytes: Uint8Array, fileName: string = 'download.bin') {
+    if (bytes) {
       let element = document.createElement('a');
-      element.setAttribute(
-        'href',
-        'data:text/plain;charset=utf-8,' + encodeURIComponent(text)
+      element.href = window.URL.createObjectURL(
+        new Blob([bytes], { type: 'application/octet-stream' })
       );
-      element.setAttribute('download', fileName);
+      element.download = fileName;
       element.style.display = 'none';
       document.body.appendChild(element);
       element.click();
