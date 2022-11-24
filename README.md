@@ -1,4 +1,4 @@
-# hex-string-unzipper
+# Hex String Unzipper
 
 Unzips hex of zipped data to string.
 
